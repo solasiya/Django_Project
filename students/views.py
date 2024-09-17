@@ -3,27 +3,32 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+from .forms import UserRegistrationForm
 from .models import Student
 from .forms import StudentForm
 
-def landing_page(request):
+def landing(request):
     return render(request, 'landing.html')
 
 def user_login(request):
     if request.user.is_authenticated:
-        return redirect('index')  
+        return redirect('dashboard')  # Changed from 'index' to 'dashboard'
+    error_message = None
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('index')
+
+        if not username or not password:
+            error_message = "Username and password are required."
         else:
-            error_message = "Invalid username or password"
-            return render(request, 'students/login.html', {'error_message': error_message})
-    return render(request, 'students/login.html')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('dashboard')  # Changed from 'index' to 'dashboard'
+            else:
+                error_message = "Invalid username or password"
+        
+    return render(request, 'students/login.html', {'error_message': error_message})
 
 @login_required
 def index(request):
@@ -37,7 +42,7 @@ def user_logout(request):
 
 def view_student(request, id):
     student = Student.objects.get(pk=id)
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('dashboard'))  # Changed from 'index' to 'dashboard'
 
 def add(request):
     if request.method == 'POST':
@@ -85,4 +90,18 @@ def edit(request, id):
 def delete(request, id):
     student = Student.objects.get(pk=id)
     student.delete()
-    return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('dashboard'))  # Changed from 'index' to 'dashboard'
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'register.html', {'form': form})

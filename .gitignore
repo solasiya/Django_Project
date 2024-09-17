@@ -1,0 +1,37 @@
+# Virtual Environment Directories
+venv/
+env/
+.virtualenv/
+
+# IDE and Editor Config Files
+.idea/
+.vscode/
+.pycharm/
+.atom/
+
+# Database Files
+db.sqlite3
+
+# Media and Static Files
+media/
+static/
+
+# Log Files
+logs/
+*.log
+
+# Cache Files
+__pycache__/
+*.pyc
+
+# Sensitive Information
+settings.py
+secrets.json
+
+# Node Modules (if using npm or yarn)
+node_modules/
+
+# Other Unnecessary Files
+.DS_Store
+Thumbs.db
+*.tmp
