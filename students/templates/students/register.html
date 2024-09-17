@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Student Management System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'landing' %}">
+                <i class="fas fa-graduation-cap fa-lg"></i> Student Management System
+            </a>
+        </div>
+    </nav>
+
+    <div class="container flex-grow-1 d-flex align-items-center">
+        <div class="row w-100 justify-content-center">
+            <div class="col-md-6">
+                <h2 class="mb-4 text-center">Register</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+                </form>
+                <p class="mt-3 text-center">
+                    Already have an account? <a href="{% url 'login' %}">Login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <span class="text-muted">© 2024 Student Management System. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
